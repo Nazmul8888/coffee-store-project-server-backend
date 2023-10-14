@@ -84,7 +84,7 @@ async function run() {
       }
       
     }
-    const result = await coffeeCollection.updateOne(filter, coffee, options);
+    const result = await coffeeCollection.updateOne(query, coffee, options);
 
     res.send(result)
 
