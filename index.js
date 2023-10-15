@@ -35,6 +35,7 @@ async function run() {
     await client.connect();
 
     const coffeeCollection = client.db("coffeeDB").collection('newMasterCoffee');
+     const userCollection = client.db("coffeeDB").collection('user');
 
     // second step
     app.get('/coffee',async(req,res)=>{
@@ -98,6 +99,29 @@ async function run() {
       const query = {_id: new ObjectId(id)}
       const result = await coffeeCollection.deleteOne(query);
       res.send(result)
+    })
+
+  //  how to apis post related
+
+  app.get('/user',async(req,res)=>{
+    const cursor = userCollection.find();
+    const users = await cursor.toArray();
+    res.send(users)
+  });
+
+
+    app.post('/user', async(req,res)=>{
+      const user = req.body;
+      console.log(user);
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
+
+    app.delete('/user/:id', async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
     })
 
 
